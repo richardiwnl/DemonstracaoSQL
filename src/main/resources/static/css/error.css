@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+body {
+
+    background-color: rgb(0, 0, 18);
+    color: white;
+    font-family: sans-serif, Verdana, Tahoma;
+    user-select: none;
+}
+
+.error-404 {
+
+    margin-top: 6rem;
+    text-align: center;
+}
+
+.error-404 p {
+
+    font-size: 1.3rem;
+}
+
+
+a {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    text-decoration: none;
+}
+
+a div {
+
+    margin-top: 2.5rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid green;
+    border-radius: 4px;
+    width: 250px;
+    height: 40px;
+}
+
+.container span {
+
+    font-weight: bold;
+    color: green;
+    font-size: 7rem
+}

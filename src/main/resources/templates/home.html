@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="device-width=1.0, maximum-scale=1.0, initial-scale=1">
+    <title>Faça login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+</head>
+
+<body>
+
+    <fieldset>
+
+        <h1>Faça login</h1>
+
+        <legend>Login</legend>
+
+        <form th:action="@{/login}" method="post" autocomplete="off">
+
+            <div th:if="${param.error}" class="error-alert">Senha ou email inválidos!</div>
+            <div class="input">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+
+            <div class="input">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="input">
+                <input type="submit" class="input" value="Entrar">
+            </div>
+
+            <div class="register">Não tem uma conta? <a th:href="@{/registrar}">Registre-se</a></div>
+
+        </form>
+    </fieldset>
+</body>
+
+</html>

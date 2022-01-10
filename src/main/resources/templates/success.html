@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/success.css}">
+    <link rel="stylesheet" th:href="@{/icomoon/style.css}">
+</head>
+
+<body>
+
+<div class="greetings">
+    <p>Olá, <span th:text="${firstName}"></span></p>
+
+    <a class="logout-button" th:href="@{/logout}">
+        <div>
+            Sair
+        </div>
+    </a>
+</div>
+
+
+<div class="table-container">
+
+    <span class="records-amount" style="display: none;" th:object="${recordsAmount}" th:href="${recordsAmount}"></span>
+
+    <div class="navigation" th:object="${currentIndex}">
+        <a class="icon-arrow-left2" th:href="${currentIndex - 1}"></a>
+        <a th:href="${currentIndex}">
+            <span class="current-index" th:text="${currentIndex}"></span>
+        </a>
+        <a class="icon-arrow-right2" th:href="${currentIndex + 1}"></a>
+    </div>
+
+    <table class="registry-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Email</th>
+            <th>Data de Registro</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">ID</td>
+            <td th:text="${user.firstName}">Nome</td>
+            <td th:text="${user.lastName}">Sobrenome</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.formattedRegisterDate}">Data</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <script th:src="@{/js/success.js}"></script>
+</body>
+</html>

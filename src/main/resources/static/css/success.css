@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+* {
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*::selection {
+    color: white;
+    background-color: green;
+}
+
+
+.navigation a {
+
+    display: block;
+    text-align: center;
+    float: left;
+    color: green;
+    text-decoration: none;
+    font-size: 2.5rem;
+    width: 33%;
+}
+
+body {
+
+    background-color: rgb(0, 0, 18);
+    color: white;
+    font-family: sans-serif, Verdana, Tahoma;
+}
+
+
+.greetings {
+
+    margin: 20px;
+    display: grid;
+    place-items: center;
+}
+
+.greetings .logout-button {
+
+    display: grid;
+    place-items: center;
+    margin: 20px;
+    text-decoration: none;
+    color: green;
+    border: 1px solid green;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+}
+
+.registry-table {
+
+    position: relative;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, 15%);
+    width: 900px;
+    border: 2px solid green;
+    border-radius: 10px;
+    border-style: hidden;
+    box-shadow: 0px 0px 0px 2px green;
+    border-collapse: collapse;
+}
+
+.registry-table th {
+
+    text-transform: uppercase;
+}
+
+.registry-table th, td, tr {
+
+    text-align: center;
+    padding: 15px;
+}
+
+.registry-table tbody td {
+
+    border-top: 1px solid green;
+}
+
+.registry-table tfoot td {
+
+    position: relative;
+    left: 33%;
+}

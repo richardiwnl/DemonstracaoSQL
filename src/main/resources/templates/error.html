@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="stylesheet" th:href="@{/css/error.css}">
+        <title>Página indisponível</title>
+    </head>
+
+    <body>
+       
+        <div class="container">
+            
+            <div class="error-404">
+                <span>404</span>
+
+                <p>Essa página não existe ou está indisponível</p>
+            </div>
+            
+            
+
+            <a th:href="@{/usuarios/1}">
+                <div>
+                    Voltar ao início
+                </div>
+            </a>
+        </div>
+
+        <script src=""></script>
+    </body>
+</html>
