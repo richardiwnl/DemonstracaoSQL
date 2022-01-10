@@ -39,8 +39,17 @@ public class WebController
     @GetMapping("/")
     public void root(HttpServletResponse response) throws IOException
     {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
 
-        response.sendRedirect("/login");
+        if (authentication.isAuthenticated())
+        {
+            response.sendRedirect("/usuarios/1");
+        }
+        else
+        {
+            response.sendRedirect("/login");
+        }
     }
 
 
