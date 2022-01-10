@@ -1,5 +1,10 @@
 HELP.md
+src/main/resources/static/icomoon/demo-files
 src/main/resources/application.properties
+src/main/resources/static/icomoon/fonts
+src/main/resources/static/icomoon/demo.html
+src/main/resources/static/icomoon/Read Me.txt
+src/main/resources/static/icomoon/selection.json
 mvnw
 mvnw.cmd
 target/
