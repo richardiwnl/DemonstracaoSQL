@@ -4,7 +4,12 @@ import css.richard.demonstracaosql.model.entities.User;
 import css.richard.demonstracaosql.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,9 +40,7 @@ public class WebController
     @Autowired
     UserRepository userRepository;
 
-    // Vou realocar essa parte!! :)
-
-    @GetMapping
+    @GetMapping("/")
     public void root(HttpServletResponse response) throws IOException
     {
 
@@ -97,6 +100,31 @@ public class WebController
         }
 
 
+
         return "home";
+    }
+
+    @GetMapping("/usuarios/{pageNumber}")
+    public String users(Model model, @PathVariable Integer pageNumber)
+    {
+
+        Authentication auth = SecurityContextHolder.getContext()
+                        .getAuthentication();
+
+        User user = userRepository.findByEmail(auth.getName());
+
+
+        model.addAttribute("currentIndex", pageNumber);
+        model.addAttribute("recordsAmount", userRepository.count());
+        model.addAttribute("firstName", user.getFirstName());
+
+        Pageable page = PageRequest.of(pageNumber - 1, 6);
+
+        Iterable<User> users = userRepository.findAll(page);
+
+        model.addAttribute("users", users);
+
+
+        return "success";
     }
 }
