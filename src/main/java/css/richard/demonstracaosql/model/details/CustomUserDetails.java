@@ -1,8 +1,6 @@
 package css.richard.demonstracaosql.model.details;
 
 import css.richard.demonstracaosql.model.entities.User;
-import css.richard.demonstracaosql.model.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
