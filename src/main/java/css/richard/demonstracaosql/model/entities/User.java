@@ -100,4 +100,14 @@ public class User
     {
         this.formattedRegisterDate = formattedRegisterDate;
     }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 }
