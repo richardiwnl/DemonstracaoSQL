@@ -1,18 +1,41 @@
 package css.richard.demonstracaosql.controller;
 
+import css.richard.demonstracaosql.model.entities.User;
+import css.richard.demonstracaosql.model.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("/")
 public class WebController
 {
+
+    @ModelAttribute("user")
+    public User user()
+    {
+        return new User();
+    }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserRepository userRepository;
+
+    // Vou realocar essa parte!! :)
 
     @GetMapping
     public void root(HttpServletResponse response) throws IOException
@@ -25,6 +48,54 @@ public class WebController
     @GetMapping("/login")
     public String home(Model model)
     {
+
+        return "home";
+    }
+
+    @GetMapping("/registrar")
+    public String register(Model model)
+    {
+
+        return "register";
+    }
+
+    @PostMapping("/registrar")
+    public String register(Model model, @ModelAttribute("user") User user,
+                           HttpServletResponse response) throws Exception
+    {
+
+        if (userRepository.findByEmail(user.getEmail()) != null)
+        {
+
+            response.sendRedirect("/registrar?erro");
+        }
+        else
+        {
+
+            user.setFirstName(StringUtils.capitalize(user.getFirstName()));
+            user.setLastName(StringUtils.capitalize(user.getLastName()));
+
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+            user.setRegisterDate(new Date());
+
+            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+
+            time.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+            date.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+
+            String formattedRegisterDate = String.format(
+                    "%s às %s", date.format(user.getRegisterDate()),
+                    time.format(user.getRegisterDate())
+            );
+
+            user.setFormattedRegisterDate(formattedRegisterDate);
+
+            userRepository.save(user);
+
+        }
+
 
         return "home";
     }
