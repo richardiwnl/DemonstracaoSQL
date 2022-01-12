@@ -139,4 +139,23 @@ public class WebController
 
         return "deleteAccount";
     }
+
+    @GetMapping("/destruir") // Isso era pra ser um DeleteMapping (AJAX) :(
+    public void deleteAccount(@RequestParam String valid,
+                              HttpServletResponse response) throws IOException
+    {
+
+        if (valid.equalsIgnoreCase("true"))
+        {
+            Authentication auth = SecurityContextHolder.getContext()
+                    .getAuthentication();
+
+            User user = userRepository.findByEmail(auth.getName());
+
+            response.sendRedirect("/logout");
+
+            userRepository.delete(user);
+
+        }
+    }
 }
