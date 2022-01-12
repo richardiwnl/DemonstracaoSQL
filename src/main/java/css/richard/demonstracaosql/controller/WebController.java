@@ -5,10 +5,13 @@ import css.richard.demonstracaosql.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +27,7 @@ import java.util.TimeZone;
 public class WebController
 {
 
-    @ModelAttribute("user")
+    @ModelAttribute("newUser")
     public User user()
     {
         return new User();
@@ -45,8 +48,7 @@ public class WebController
         if (authentication.isAuthenticated())
         {
             response.sendRedirect("/usuarios/1");
-        }
-        else
+        } else
         {
             response.sendRedirect("/login");
         }
@@ -68,7 +70,7 @@ public class WebController
     }
 
     @PostMapping("/registrar")
-    public String register(Model model, @ModelAttribute("user") User user,
+    public String register(@ModelAttribute("newUser") User user,
                            HttpServletResponse response) throws Exception
     {
 
@@ -76,8 +78,7 @@ public class WebController
         {
 
             response.sendRedirect("/registrar?erro");
-        }
-        else
+        } else
         {
 
             user.setFirstName(StringUtils.capitalize(user.getFirstName()));
@@ -105,7 +106,6 @@ public class WebController
         }
 
 
-
         return "home";
     }
 
@@ -113,8 +113,16 @@ public class WebController
     public String users(Model model, @PathVariable Integer pageNumber)
     {
 
+        Pageable page = PageRequest.of(pageNumber - 1, 6);
+
+        Iterable<User> users = userRepository.findAll(page);
+
+        model.addAttribute("users", users);
+
         Authentication auth = SecurityContextHolder.getContext()
-                        .getAuthentication();
+                .getAuthentication();
+
+        System.out.println(auth.getName());
 
         User user = userRepository.findByEmail(auth.getName());
 
@@ -122,12 +130,6 @@ public class WebController
         model.addAttribute("currentIndex", pageNumber);
         model.addAttribute("recordsAmount", userRepository.count());
         model.addAttribute("firstName", user.getFirstName());
-
-        Pageable page = PageRequest.of(pageNumber - 1, 6);
-
-        Iterable<User> users = userRepository.findAll(page);
-
-        model.addAttribute("users", users);
 
 
         return "success";
@@ -156,6 +158,76 @@ public class WebController
 
             userRepository.delete(user);
 
+        }
+    }
+
+    @GetMapping("/atualizar")
+    public String update(Model model)
+    {
+
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+
+        User user = userRepository.findByEmail(authentication.getName());
+
+        model.addAttribute("user", user);
+
+        return "editAccount";
+    }
+
+    @PostMapping("/atualizar")
+    @Transactional
+    public void update(HttpServletResponse response,
+                       @ModelAttribute("newUser") User newUser)
+            throws IOException
+    {
+
+        User formUser = userRepository.findByEmail(newUser.getEmail());
+
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        Authentication auth = context
+                .getAuthentication();
+
+        User user = userRepository.findByEmail(auth.getName());
+
+        if (formUser != null && !formUser.getEmail().equals(user.getEmail()))
+        {
+
+            response.sendRedirect("/atualizar?erro");
+        } else
+        {
+
+            user.setFirstName(StringUtils.capitalize(newUser.getFirstName()));
+            user.setLastName(StringUtils.capitalize(newUser.getLastName()));
+
+            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
+            user.setRegisterDate(new Date());
+
+            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+
+            time.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+            date.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+
+            String formattedRegisterDate = String.format(
+                    "%s às %s", date.format(new Date()),
+                    time.format(new Date())
+            );
+
+            user.setFormattedRegisterDate(formattedRegisterDate);
+            user.setEmail(newUser.getEmail());
+
+            Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+                    user.getEmail(),
+                    user.getPassword(),
+                    auth.getAuthorities()
+            );
+
+            context.setAuthentication(newAuthentication);
+
+            response.sendRedirect("/");
         }
     }
 }
