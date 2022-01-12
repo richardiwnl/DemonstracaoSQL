@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -113,11 +116,25 @@ public class WebController
     public String users(Model model, @PathVariable Integer pageNumber)
     {
 
-        Pageable page = PageRequest.of(pageNumber - 1, 6);
+        List<User> users = userRepository.findAll().stream()
+                .sorted(new Comparator<User>()
+                {
+                    @Override
+                    public int compare(User user, User other)
+                    {
+                        return user.getId().compareTo(other.getId());
+                    }
+                }).collect(Collectors.toList());
 
-        Iterable<User> users = userRepository.findAll(page);
+//        Pageable page = PageRequest.of(pageNumber - 1, 6);
 
-        model.addAttribute("users", users);
+
+
+        model.addAttribute("users", users
+                .stream()
+                .skip((long) (pageNumber - 1) * 6)
+                .limit(pageNumber * 6)
+                .collect(Collectors.toList()));
 
         Authentication auth = SecurityContextHolder.getContext()
                 .getAuthentication();
