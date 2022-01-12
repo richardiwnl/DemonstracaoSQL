@@ -20,7 +20,7 @@
                     Email já em uso!
                 </div>
 
-                <form th:action="@{/registrar}" th:object="${user}" method="post" autocomplete="off">
+                <form th:action="@{/registrar}" th:object="${newUser}" method="post" autocomplete="off">
                     <div class="input">
                         <label for="nome">Nome</label>
                         <input type="text" id="nome" th:field="*{firstName}" required>
