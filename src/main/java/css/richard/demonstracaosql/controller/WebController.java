@@ -132,4 +132,11 @@ public class WebController
 
         return "success";
     }
+
+    @GetMapping("/apagar")
+    public String delete()
+    {
+
+        return "deleteAccout";
+    }
 }
