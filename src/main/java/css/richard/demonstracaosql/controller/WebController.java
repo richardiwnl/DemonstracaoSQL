@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -122,8 +123,6 @@ public class WebController
         Authentication auth = SecurityContextHolder.getContext()
                 .getAuthentication();
 
-        System.out.println(auth.getName());
-
         User user = userRepository.findByEmail(auth.getName());
 
 
@@ -219,7 +218,7 @@ public class WebController
             user.setFormattedRegisterDate(formattedRegisterDate);
             user.setEmail(newUser.getEmail());
 
-            Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
+            Authentication newAuthentication = new PreAuthenticatedAuthenticationToken(
                     user.getEmail(),
                     user.getPassword(),
                     auth.getAuthorities()
