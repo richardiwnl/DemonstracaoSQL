@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US"
+    xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="stylesheet" href="../static/css/deleteAccount.css">
+        <script src="https://kit.fontawesome.com/3bcd821813.js" crossorigin="anonymous"></script>
+        <title>Apagar registro</title>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="alert">
+                <i class="fas fa-exclamation"></i>
+            </div>
+
+            <div class="delete-confirmation">
+                <p>Deseja realmente excluir sua conta?</p>
+
+                <div class="buttons">
+                    <a th:href="@{/apagar}" class="delete">
+                        <div>Sim</div>
+                    </a>
+    
+                    <a th:href="@{/usuarios/1}" class="return-home">
+                        <div>Não</div>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </body>
+</html>

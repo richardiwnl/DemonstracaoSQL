@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <link rel="stylesheet" href="../static/css/editAccount.css">
+
+        <title>Atualize seu registro</title>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <h1>Atualizar registro</h1>
+
+            <fieldset>
+                <legend>Atualizar registro</legend>
+
+                <div class="email-used-alert" th:if="${param.erro}">
+                    Email já em uso!
+                </div>
+
+                <form th:action="@{/atualizar}" th:object="${user}" method="post" autocomplete="off">
+                    <div class="input">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" th:field="*{firstName}" required>
+                    </div>
+
+                    <div class="input">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input type="text" id="sobrenome" th:field="*{lastName}" required>
+                    </div>
+
+                    <div class="input">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" th:field="*{email}" required>
+                    </div>
+
+                    <div class="input">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" th:field="*{password}" required>
+                    </div>
+
+                    <div class="button">
+                        <label><input type="submit" value="Atualizar"></label>
+                    </div>
+                    
+                </form>
+            </fieldset>
+        </div>
+    </body>
+</html>

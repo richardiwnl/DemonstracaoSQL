@@ -1,0 +1,98 @@
+body {
+
+    background-color: rgb(0, 0, 18);
+    color: white;
+    font-family: sans-serif, Arial, Verdana;
+    user-select: none;
+}
+
+.email-used-alert {
+
+    text-align: center;
+    color: red;
+}
+
+h1 {
+
+    text-align: center;
+}
+
+input::selection, input::-moz-selection {
+
+    color: white;
+    background-color: green;
+}
+
+fieldset {
+
+    border: none;
+}
+
+legend {
+
+    display: none;
+}
+
+.container {
+
+    border: 2px solid green;
+    border-radius: 1rem;
+    width: 31.25rem;
+    height: 25rem;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%)
+}
+
+input {
+
+    color: white;
+    text-align: center;
+    background-color: rgb(0, 0, 18);
+    outline: none;
+    border: 1px solid green;
+    border-radius: 3px;
+    width: 250px;
+    height: 25px;
+}
+
+.button input {
+
+    color: green;
+    width: 16rem;
+    height: 1.8rem;
+    margin-top: 2.5rem;
+}
+
+.button label {
+
+    width: 6.25rem;
+    height: 1rem;
+    margin: 1rem;    
+}
+
+.button {
+
+    text-align: center;
+}
+
+.button input:hover {
+
+    cursor: pointer;
+}
+
+.input {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22rem;
+}
+
+.input label {
+
+    width: 6.25rem;
+    height: 1rem;
+    margin: 1rem;
+}
