@@ -137,6 +137,6 @@ public class WebController
     public String delete()
     {
 
-        return "deleteAccout";
+        return "deleteAccount";
     }
 }
