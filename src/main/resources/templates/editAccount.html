@@ -21,25 +21,26 @@
                     Email já em uso!
                 </div>
 
-                <form th:action="@{/atualizar}" th:object="${user}" method="post" autocomplete="off">
+                <form th:action="@{/atualizar}" 
+                method="post" autocomplete="off">
                     <div class="input">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" th:field="*{firstName}" th:value="*{firstName}" required>
+                        <input type="text" id="nome" th:value="${user.firstName}" name="firstName" required>
                     </div>
 
                     <div class="input">
                         <label for="sobrenome">Sobrenome</label>
-                        <input type="text" id="sobrenome" th:field="*{lastName}" th:value="*{lastName}" required>
+                        <input type="text" id="sobrenome" th:value="${user.lastName}" name="lastName" required>
                     </div>
 
                     <div class="input">
                         <label for="email">Email</label>
-                        <input type="text" id="email" th:field="*{email}" th:value="*{email}" required>
+                        <input type="text" id="email" th:value="${user.email}" name="email" required>
                     </div>
 
                     <div class="input">
                         <label for="senha">Senha</label>
-                        <input type="password" id="senha" th:field="*{password}" th:value="*{password}" required>
+                        <input type="password" id="senha" name="password" required>
                     </div>
 
                     <div class="button">
