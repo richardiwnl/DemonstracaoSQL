@@ -1,105 +1,169 @@
-@charset "UTF-8";
-
-body {
+* {
 
     user-select: none;
-    font-family: sans-serif, Verdana, Tahoma;
-    background-color: rgb(0, 0, 18);
+}
+
+html {
+
+    font-family: sans-serif;
+    -webkit-tap-highlight-color: transparent;
     color: white;
 }
 
-fieldset {
-    
-    padding: 0;
-    margin: 0;
-    border: 2px solid green;
-    border-radius: 1rem;
-    width: 500px;
-    height: 400px;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%);
-}
 
-legend {
-    
+.github {
+
     display: none;
 }
+body {
 
-input {
-
-    background-color: rgb(0, 0, 18);
+    background-color: #0d1117;
     color: white;
-    outline: none;
-    text-align: center;
-    border: 1px solid green;
-    border-radius: 3px;
-    height: 25px;
-    width: 250px;
-}
-
-input[type="submit"] {
-
-    margin-top: 30px;
-    color: green;
-    height: 40px;
-    width: 200px;
-}
-
-input[type="submit"]:hover {
-
-    cursor: pointer;
-}
-
-.input label {
-
-    float: left;
-    width: 0;
-    transform: translateX(20px);
-}
-
-.input:first-child {
-
-    margin-top: 60px;
-}
-
-.input {
-    
-    margin: 20px 0;
-    text-align: center;
-}
-
-.error-alert {
-
-    color: rgba(255, 0, 0, 1);
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-.register {
-
-    margin-left: 20px;
-    font-size: .9rem;
-    display: block;
-    position: fixed;
-    transform: translateY(px);
-}
-
-.register a {
-
-    color: green;
-    text-decoration: none;
-}
-
-.register a:hover {
-
-    cursor: pointer;
 }
 
 h1 {
 
     text-align: center;
-    font-family: sans-serif;
 }
+
+fieldset {
+
+    border: none;
+}
+
+legend {
+
+    display: none;
+}
+
+input {
+
+    background-color: inherit;
+    border: 2px solid green;
+    border-radius: 3px;
+    height: 2rem;
+    width: 15rem;
+    outline: none;
+    text-align: center;
+    display: flex;
+    margin: 1.5rem auto;
+    color: white;
+}
+
+input::placeholder {
+
+    color: #ccc;
+}
+
+button {
+
+    display: block;
+    height: 2.5rem;
+    width: 13rem;
+    margin: 3rem auto;
+    background-color: inherit;
+    border: 2px solid green;
+    border-radius: 4px;
+    color: white;
+}
+
+button:hover {
+
+    cursor: pointer;
+}
+
+.form-container {
+
+    border: 2px solid green;
+    border-radius: 1rem;
+    width: 90%;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    height: 28rem;
+
+}
+
+.form-container div {
+
+    margin: 1rem;
+    position: relative;
+    left: 3%;
+}
+
+.form-container a {
+
+    color: rgba(0, 255, 0, .9);
+    text-decoration: none;
+}
+
+label {
+
+    display: none;
+}
+
+.error-alert {
+
+    display: block;
+    text-align: center;
+    color: rgba(255, 0, 0, .8);
+    font-size: 1.2rem;
+    margin: 0;
+    
+}
+
+@media screen and (min-width: 800px)
+{
+
+
+    .form-container {
+
+        width: 28rem;
+        height: 27rem;
+    }
+
+    input::placeholder {
+
+        font-size: 1rem;
+    }
+
+    input {
+
+        font-size: 1.3rem;
+    }
+
+    .github {
+
+        display: inline;
+        position: absolute;
+        bottom: 1%;
+        left: 1%;
+    }
+    
+    p {
+    
+        font-size: 1rem;
+    }
+    
+    .github-link {
+    
+        text-decoration: none;
+        color: #ccc;
+        border-bottom: 4px dotted gray;
+        transition: all 200ms linear;
+    }
+    
+    .github-link:hover {
+    
+        color: green;
+        border-bottom-color: green;
+    }
+    
+    i {
+    
+        margin-left: 3px;
+        font-size: 2rem;
+    }
+    
+} 
