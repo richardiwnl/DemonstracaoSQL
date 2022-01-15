@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en-US"
+xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="device-width=1.0, maximum-scale=1.0, initial-scale=1">
-    <title>Faça login</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
-</head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <title>Faça login</title>    
+    <script src="https://kit.fontawesome.com/3bcd821813.js" crossorigin="anonymous"></script>   
 
-<body>
+    </head>
 
-    <fieldset>
+    <body>
+        
+        <div class="form-container">
 
-        <h1>Faça login</h1>
+            <h1>Faça login</h1>
 
-        <legend>Login</legend>
+            <h2 th:if="${param.erro}" class="error-alert">Senha ou email inválidos!</h2>
 
-        <form th:action="@{/login}" method="post" autocomplete="off">
+                <form th:action="@{/login}" method="post" autocomplete="off">
+                    <fieldset>
+                    <legend>Login</legend>
 
-            <div th:if="${param.erro}" class="error-alert">Senha ou email inválidos!</div>
-            <div class="input">
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email" required>
-            </div>
+                    <label for="email">Email</label>
 
-            <div class="input">
-                <label for="password">Senha</label>
-                <input type="password" id="password" name="password" required>
-            </div>
+                    <input type="email" id="email" placeholder="Email" name="email">
+                    
+                    <label for="pwd">Senha</label>
 
-            <div class="input">
-                <input type="submit" class="input" value="Entrar">
-            </div>
+                    <input type="password" id="pwd" placeholder="Senha" name="password">
+                    
 
-            <div class="register">Não tem uma conta? <a th:href="@{/registrar}">Registre-se</a></div>
+                    <button type="submit">Enviar</button>
+                    </fieldset>
+                </form>
+            
+            <div>Não tem uma conta? <a th:href="@{/registrar}">Registre-se</a></div>
+        </div>
+        
+        <p class="github">Projeto disponível no <a href="http://github.com/richardcss/DemonstracaoSQL" class="github-link" target="_blank">GitHub <i class="fab fa-github"></i></a></p>
 
-        </form>
-    </fieldset>
-</body>
-
+    </body>
 </html>
