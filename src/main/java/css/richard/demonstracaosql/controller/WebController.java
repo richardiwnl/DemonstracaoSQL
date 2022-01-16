@@ -2,9 +2,8 @@ package css.richard.demonstracaosql.controller;
 
 import css.richard.demonstracaosql.model.entities.User;
 import css.richard.demonstracaosql.model.repositories.UserRepository;
+import css.richard.demonstracaosql.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,16 +12,12 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @Controller
@@ -45,8 +40,7 @@ public class WebController
     @GetMapping("/")
     public void root(HttpServletResponse response) throws IOException
     {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = AppUtils.getAuthentication();
 
         if (authentication.isAuthenticated())
         {
@@ -84,25 +78,7 @@ public class WebController
         } else
         {
 
-            user.setFirstName(StringUtils.capitalize(user.getFirstName()));
-            user.setLastName(StringUtils.capitalize(user.getLastName()));
-
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-            user.setRegisterDate(new Date());
-
-            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-
-            time.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-            date.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-
-            String formattedRegisterDate = String.format(
-                    "%s às %s", date.format(user.getRegisterDate()),
-                    time.format(user.getRegisterDate())
-            );
-
-            user.setFormattedRegisterDate(formattedRegisterDate);
+            AppUtils.buildUser(user);
 
             userRepository.save(user);
 
@@ -116,30 +92,25 @@ public class WebController
     public String users(Model model, @PathVariable Integer pageNumber)
     {
 
-        List<User> users = userRepository.findAll().stream()
-                .sorted(new Comparator<User>()
-                {
-                    @Override
-                    public int compare(User user, User other)
-                    {
-                        return user.getId().compareTo(other.getId());
-                    }
-                }).collect(Collectors.toList());
-
-//        Pageable page = PageRequest.of(pageNumber - 1, 6);
-
-
-
-        model.addAttribute("users", users
+        List<User> users = userRepository.findAll()
                 .stream()
-                .skip((long) (pageNumber - 1) * 6)
-                .limit(pageNumber * 6)
-                .collect(Collectors.toList()));
+                    .sorted(Comparator.comparing(User::getRegisterDate).reversed())
+                    .collect(Collectors.toList());
 
-        Authentication auth = SecurityContextHolder.getContext()
-                .getAuthentication();
+        model.addAttribute("users",
+                users.stream()
+                        .skip((long) (pageNumber - 1) * 6)
+                        .limit(pageNumber * 6)
+                        .collect(Collectors.toList()));
 
-        User user = userRepository.findByEmail(auth.getName());
+        Authentication authentication = AppUtils.getAuthentication();
+
+        if (!authentication.isAuthenticated())
+        {
+            System.out.println("Voce nao esta autenticado");
+        }
+
+        User user = userRepository.findByEmail(authentication.getName());
 
 
         model.addAttribute("currentIndex", pageNumber);
@@ -158,16 +129,14 @@ public class WebController
     }
 
     @GetMapping("/destruir") // Isso era pra ser um DeleteMapping (AJAX) :(
-    public void deleteAccount(@RequestParam String valid,
-                              HttpServletResponse response) throws IOException
+    public void deleteAccount(@RequestParam String valid, HttpServletResponse response) throws IOException
     {
 
         if (valid.equalsIgnoreCase("true"))
         {
-            Authentication auth = SecurityContextHolder.getContext()
-                    .getAuthentication();
+            Authentication authentication = AppUtils.getAuthentication();
 
-            User user = userRepository.findByEmail(auth.getName());
+            User user = userRepository.findByEmail(authentication.getName());
 
             response.sendRedirect("/logout");
 
@@ -180,8 +149,7 @@ public class WebController
     public String update(Model model)
     {
 
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = AppUtils.getAuthentication();
 
         User user = userRepository.findByEmail(authentication.getName());
 
@@ -192,17 +160,14 @@ public class WebController
 
     @PostMapping("/atualizar")
     @Transactional
-    public void update(HttpServletResponse response,
-                       @ModelAttribute("newUser") User newUser)
-            throws IOException
+    public void update(HttpServletResponse response, @ModelAttribute("newUser") User newUser) throws IOException
     {
 
         User formUser = userRepository.findByEmail(newUser.getEmail());
 
         SecurityContext context = SecurityContextHolder.getContext();
 
-        Authentication auth = context
-                .getAuthentication();
+        Authentication auth = context.getAuthentication();
 
         User user = userRepository.findByEmail(auth.getName());
 
@@ -213,32 +178,11 @@ public class WebController
         } else
         {
 
-            user.setFirstName(StringUtils.capitalize(newUser.getFirstName()));
-            user.setLastName(StringUtils.capitalize(newUser.getLastName()));
+            AppUtils.updateUser(user, newUser);
 
-            user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-            user.setRegisterDate(new Date());
-
-            SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-
-            time.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-            date.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-
-            String formattedRegisterDate = String.format(
-                    "%s às %s", date.format(new Date()),
-                    time.format(new Date())
-            );
-
-            user.setFormattedRegisterDate(formattedRegisterDate);
-            user.setEmail(newUser.getEmail());
-
-            Authentication newAuthentication = new PreAuthenticatedAuthenticationToken(
-                    user.getEmail(),
-                    user.getPassword(),
-                    auth.getAuthorities()
-            );
+            Authentication newAuthentication = new
+                    PreAuthenticatedAuthenticationToken(user.getEmail(),
+                    user.getPassword(), auth.getAuthorities());
 
             context.setAuthentication(newAuthentication);
 
