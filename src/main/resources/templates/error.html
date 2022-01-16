@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR"
+xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <link rel="stylesheet" th:href="@{/css/error.css}">
         <title>Página indisponível</title>
+        <script src="https://kit.fontawesome.com/3bcd821813.js" crossorigin="anonymous"></script>  
     </head>
 
     <body>
-       
+        
         <div class="container">
-            
-            <div class="error-404">
-                <span>404</span>
+            <h1>404</h1>
 
-                <p>Essa página não existe ou está indisponível</p>
-            </div>
-            
-            
+            <p>Essa página não existe ou está indisponível</p>
 
-            <a th:href="@{/}">
-                <div>
-                    Voltar ao início
-                </div>
-            </a>
+            <a class="home-link" th:href="@{/}">Voltar ao início</a>
         </div>
     </body>
 </html>

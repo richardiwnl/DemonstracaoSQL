@@ -1,53 +1,48 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="pt-BR" 
+xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <link rel="stylesheet" th:href="@{/css/editAccount.css}">
-
-        <title>Atualize seu registro</title>
+        <title>Atualizar cadastro</title>
     </head>
 
     <body>
+        
+        <div class="form-container">
 
-        <div class="container">
-
-            <h1>Atualizar registro</h1>
+            <h1>Atualizar cadastro</h1>
 
             <fieldset>
-                <legend>Atualizar registro</legend>
+                <legend>Atualize seu cadastro</legend>
 
-                <div class="email-used-alert" th:if="${param.erro}">
-                    Email já em uso!
-                </div>
+                <form th:action="@{/atualizar}" method="post" autocomplete="off">
 
-                <form th:action="@{/atualizar}" 
-                method="post" autocomplete="off">
+                    <div class="error-alert" th:if="${param.erro}">Email já em uso!</div>
+
                     <div class="input">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" th:value="${user.firstName}" name="firstName" required>
+                        <input name="firstName" th:value="${user.firstName}" id="nome" type="text" placeholder="Nome" autofocus required>
                     </div>
 
                     <div class="input">
                         <label for="sobrenome">Sobrenome</label>
-                        <input type="text" id="sobrenome" th:value="${user.lastName}" name="lastName" required>
+                        <input name="lastName" th:value="${user.lastName}" id="sobrenome" type="text" placeholder="Sobrenome" required>
                     </div>
-
+                    
                     <div class="input">
-                        <label for="email">Email</label>
-                        <input type="text" id="email" th:value="${user.email}" name="email" required>
+                        <label for="Email">Email</label>
+                        <input name="email" th:value="${user.email}" id="Email" type="email" placeholder="Email" required>
                     </div>
 
                     <div class="input">
                         <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="password" required>
+                        <input name="password" id="senha" type="password" placeholder="Senha" required>
                     </div>
 
-                    <div class="button">
-                        <label><input type="submit" value="Atualizar"></label>
-                    </div>
-                    
-                </form>
+                    <button type="submit">Atualizar</button>
+                </form> 
             </fieldset>
         </div>
     </body>

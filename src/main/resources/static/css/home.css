@@ -1,29 +1,17 @@
+@charset "UTF-8";
+
 * {
 
+    margin: 0;
+    padding: 0;
     user-select: none;
 }
 
 html {
-
+    
     font-family: sans-serif;
     -webkit-tap-highlight-color: transparent;
     color: white;
-}
-
-
-.github {
-
-    display: none;
-}
-body {
-
-    background-color: #0d1117;
-    color: white;
-}
-
-h1 {
-
-    text-align: center;
 }
 
 fieldset {
@@ -36,136 +24,213 @@ legend {
     display: none;
 }
 
-input {
+h1 {
 
-    background-color: inherit;
-    border: 2px solid green;
-    border-radius: 3px;
-    height: 2rem;
-    width: 15rem;
-    outline: none;
     text-align: center;
-    display: flex;
-    margin: 1.5rem auto;
-    color: white;
-}
-
-input::placeholder {
-
-    color: #ccc;
-}
-
-button {
-
-    display: block;
-    height: 2.5rem;
-    width: 13rem;
-    margin: 3rem auto;
-    background-color: inherit;
-    border: 2px solid green;
-    border-radius: 4px;
-    color: white;
-}
-
-button:hover {
-
-    cursor: pointer;
-}
-
-.form-container {
-
-    border: 2px solid green;
-    border-radius: 1rem;
-    width: 90%;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%);
-    height: 28rem;
-
-}
-
-.form-container div {
-
-    margin: 1rem;
-    position: relative;
-    left: 3%;
-}
-
-.form-container a {
-
-    color: rgba(0, 255, 0, .9);
-    text-decoration: none;
-}
-
-label {
-
-    display: none;
+    margin: 1.5rem;
 }
 
 .error-alert {
 
-    display: block;
     text-align: center;
-    color: rgba(255, 0, 0, .8);
-    font-size: 1.2rem;
-    font-weight: normal;
-    margin: 0;
-
+    color: red;
 }
 
-@media screen and (min-width: 800px)
+
+@media screen and (max-width: 900px)
 {
-
-
-    .form-container {
-
-        width: 30rem;
-        height: 27rem;
-    }
-
-    input::placeholder {
-
-        font-size: 1rem;
+    
+    body {
+    
+        background-color: rgb(0, 0, 8);
     }
 
     input {
 
-        width: 70%;
-        font-size: 1rem;
+        height: 1.9rem;
+        width: 75%;
+        background-color: inherit;
+        outline: none;
+        border: 2px solid green;
+        border-radius: 3px;
+        text-align: center;
+        color: white;
     }
 
-    .github {
+    input::placeholder {
 
-        display: inline;
-        position: absolute;
-        bottom: 1%;
-        left: 1%;
-    }
-    
-    p {
-    
-        font-size: 1rem;
-    }
-    
-    .github-link {
-    
-        text-decoration: none;
         color: #ccc;
-        border-bottom: 4px dotted gray;
+    }
+
+    button {
+
+        display: block;
+        width: 40%;
+        height: 2.3rem;
+        background-color: inherit;
+        border: 2px solid green;
+        border-radius: 4px;
+        color: white;
+        margin: 3rem auto;
+    }
+
+    label {
+
+        display: none;
+    }
+
+    .form-container {
+
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, 10%);
+        height: 25rem;
+        width: 90%;
+        border: 2.5px solid green;
+        border-radius: .5rem;
+    }
+
+    .input {
+        margin: 2rem;
+        text-align: center;
+    }
+
+
+    .register-link {
+
+        position: absolute;
+        bottom: 5%;
+        left: 5%;
+    }
+
+    .register-link a {
+
+        color: rgba(0, 255, 0, .8);
+        text-decoration: none;
+    }
+
+    .github-link {
+
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1000px)
+{
+
+    body {
+    
+        background-color: rgb(0, 0, 17);
+    }
+
+    label {
+
+        display: initial;
+        float: left;
+        width: 0;
+        position: relative;
+        left: 5%;
+    }
+
+    button {
+
+        display: block;
+        margin: 4rem auto;
+        width: 35%;
+        height: 2.3rem;
+        background-color: inherit;
+        border: 2px solid green;
+        border-radius: 4px;
+        color: white;
+        transition: all 100ms linear;
+    }
+
+    button:hover {
+
+        cursor: pointer;
+        color: green;
+    }
+
+    .form-container {
+
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        width: 30rem;
+        height: 28rem;
+        border: 2px solid green;
+        border-radius: 1rem;
+    }
+
+    input {
+
+        height: 1.7rem;
+        width: 50%;
+        background-color: inherit;
+        outline: none;
+        border: 2px solid green;
+        border-radius: 4px;
+        color: white;
+        text-align: center;
+    }
+
+    input::placeholder {
+
+        color: transparent;
+    }
+
+    .input {
+
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .register-link {
+
+        position: absolute;
+        bottom: 3%;
+        left: 3%;
+    }
+
+    .register-link a {
+
+        color: green;
+        text-decoration: none;
+        transition: color 200ms linear;
+    }
+
+    .register-link a:hover {
+
+        color: rgba(80, 255, 0, 1);
+    }
+
+    .github-link {
+
+        position: absolute;
+        bottom: 4%;
+        left: 2%;
+        font-size: 1.2rem;
+    }
+
+    .github-ref {
+
+        border-bottom: 2px dotted gray;
+        text-decoration: none;
+        color: white;
         transition: all 200ms linear;
     }
-    
-    .github-link:hover {
-    
+
+    .github-ref:hover {
+
         color: green;
-        border-bottom-color: green;
+        border-color: green;
     }
-    
-    i {
-    
-        margin-left: 3px;
+
+    .github-logo {
+
+        margin-left: 5px;
         font-size: 2rem;
     }
-    
-} 
+}

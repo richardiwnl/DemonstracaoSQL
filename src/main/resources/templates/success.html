@@ -1,66 +1,64 @@
 <!DOCTYPE html>
-<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <link rel="stylesheet" th:href="@{/css/success.css}">
-    <link rel="stylesheet" th:href="@{/icomoon/style.css}">
-    <script src="https://kit.fontawesome.com/3bcd821813.js" crossorigin="anonymous"></script>
-    <title>Usuários</title>
-</head>
+<html lang="pt-BR"
+xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <link rel="stylesheet" th:href="@{/css/success.css}">
+        <link rel="stylesheet" th:href="@{/icomoon/style.css}">
+        <script src="https://kit.fontawesome.com/3bcd821813.js" crossorigin="anonymous"></script>
+        <title>Usuários</title>
+    </head>
 
-<body>
+    <body>
+        
+        <header>
+            <nav class="main-nav">
+                <a class="edit-account" th:href="@{/atualizar}" title="Atualizar registro"><i class="fas fa-user-edit"></i></a>
+                <a class="delete-account" th:href="@{/apagar}" title="Apagar registro"><i class="fas fa-user-times"></i></a>
+                <a class="logout" th:href="@{/logout}" title="Sair"><i class="fas fa-sign-out-alt"></i></a>
+            </nav>
+        </header>
 
-<div class="greetings">
-    <p>Olá, <span th:text="${firstName}">Richard</span></p>
-
-    <!-- <a class="logout-button" th:href="@{/logout}">
-        <div>
-            Sair
+        <section>
+            <div class="greetings">
+                <p>Olá, <span th:text="${firstName}">Richard</span></p>
+            </div>
+        </section>
+        
+        <span class="records-amount" style="display: none;" th:object="${recordsAmount}" th:href="${recordsAmount}"></span>
+        
+        <div class="table-navigation" th:object="${currentIndex}">
+        
+            <a class="icon-arrow-left2" th:href="${currentIndex - 1}"></a>
+            <a th:href="${currentIndex}">
+                <span class="current-index" th:text="${currentIndex}">1</span>
+            </a>
+            <a class="icon-arrow-right2" th:href="${currentIndex + 1}"></a>
         </div>
-    </a> -->
-</div>
 
-<nav class="sidebar">
-    <a th:href="@{/atualizar}" title="Atualizar registro"><i class="fas fa-user-edit"></i> </a>
-    <a th:href="@{/apagar}" title="Apagar registro"><i class="fas fa-user-times"></i></a>
-    <a th:href="@{/logout}" title="Sair"><i class="fas fa-sign-out-alt"></i></a>
-</nav>
-
-<div class="table-container">
-
-    <span class="records-amount" style="display: none;" th:object="${recordsAmount}" th:href="${recordsAmount}"></span>
-
-    <div class="navigation" th:object="${currentIndex}">
-        <a class="icon-arrow-left2" th:href="${currentIndex - 1}"></a>
-        <a th:href="${currentIndex}">
-            <span class="current-index" th:text="${currentIndex}">1</span>
-        </a>
-        <a class="icon-arrow-right2" th:href="${currentIndex + 1}"></a>
-    </div>
-
-    <table class="registry-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Sobrenome</th>
-            <th>Email</th>
-            <th>Data de Registro</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.id}">ID</td>
-            <td th:text="${user.firstName}">Nome</td>
-            <td th:text="${user.lastName}">Sobrenome</td>
-            <td th:text="${user.email}">Email</td>
-            <td th:text="${user.formattedRegisterDate}">Data</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-    <script th:src="@{/js/success.js}"></script>
-</body>
+        <article class="table-container">
+            <table class="registry-table">
+                <thead>
+                    <tr>
+                    
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                        <th>Email</th>
+                        <th>Data de Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                    
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.formattedRegisterDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <script th:src="@{/js/success.js}"></script>
+    </body>
 </html>

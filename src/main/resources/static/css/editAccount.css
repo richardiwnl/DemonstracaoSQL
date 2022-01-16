@@ -1,26 +1,23 @@
-body {
+@charset "UTF-8";
 
-    background-color: rgb(0, 0, 18);
-    color: white;
-    font-family: sans-serif, Arial, Verdana;
+* {
+
+    margin: 0;
+    padding: 0;
     user-select: none;
 }
 
-.email-used-alert {
-
-    text-align: center;
-    color: red;
+html {
+    
+    font-family: sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    color: white;
 }
 
 h1 {
 
     text-align: center;
-}
-
-input::selection, input::-moz-selection {
-
-    color: white;
-    background-color: green;
+    margin: 1.5rem;
 }
 
 fieldset {
@@ -33,66 +30,145 @@ legend {
     display: none;
 }
 
-.container {
-
-    border: 2px solid green;
-    border-radius: 1rem;
-    width: 31.25rem;
-    height: 25rem;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%)
-}
-
 input {
 
     color: white;
-    text-align: center;
-    background-color: rgb(0, 0, 18);
-    outline: none;
-    border: 1px solid green;
-    border-radius: 3px;
-    width: 250px;
-    height: 25px;
 }
 
-.button input {
-
-    color: green;
-    width: 16rem;
-    height: 1.8rem;
-    margin-top: 2.5rem;
-}
-
-.button label {
-
-    width: 6.25rem;
-    height: 1rem;
-    margin: 1rem;    
-}
-
-.button {
+.error-alert {
 
     text-align: center;
+    color: red;
 }
 
-.button input:hover {
+@media screen and (max-width: 900px)
+{
 
-    cursor: pointer;
+    body {
+
+        background-color: rgb(0, 0, 8);
+    }
+
+    label {
+
+        display: none;
+    }
+
+    input {
+
+        width: 75%;
+        height: 1.9rem;
+        background-color: inherit;
+        outline: none;
+        border: 2px solid green;
+        border-radius: 3px;
+        text-align: center;
+    }
+
+    input::placeholder {
+
+        color: #ccc;
+    }
+
+    button {
+
+        display: block;
+        width: 40%;
+        height: 2.3rem;
+        background-color: inherit;
+        border: 2px solid green;
+        border-radius: 4px;
+        color: white;
+        margin: 3rem auto;
+    }
+
+    .form-container {
+
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, 10%);
+        width: 90%;
+        height: 28rem;
+        border: 2.5px solid green;
+        border-radius: .5rem;
+    }
+
+    .input {
+
+        margin: 1.5rem;
+        text-align: center;
+    }
 }
 
-.input {
+@media screen and (min-width: 1000px)
+{
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22rem;
-}
+    body {
 
-.input label {
+        background-color: rgb(0, 0, 17);
+    }
+    
+    label {
 
-    width: 6.25rem;
-    height: 1rem;
-    margin: 1rem;
+        display: initial;
+        float: left;
+        width: 0;
+        position: relative;
+        left: 3%;
+    }
+
+    button {
+
+        display: block;
+        margin: 4rem auto;
+        width: 35%;
+        height: 2.3rem;
+        background-color: inherit;
+        border: 2px solid green;
+        outline: none;
+        border-radius: 4px;
+        color: white;
+        transition: all 100ms linear;
+    }
+
+    button:hover, button:focus {
+
+        cursor: pointer;
+        color: green;
+    }
+
+    .form-container {
+
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        width: 30rem;
+        height: 30rem;
+        border: 2px solid green;
+        border-radius: 1rem;
+    }
+
+    input {
+
+        height: 1.7rem;
+        width: 50%;
+        background-color: inherit;
+        outline: none;
+        border: 2px solid green;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    input::placeholder {
+
+        color: transparent;
+    }
+
+    .input {
+
+        text-align: center;
+        margin-top: 2rem;
+    }
 }
