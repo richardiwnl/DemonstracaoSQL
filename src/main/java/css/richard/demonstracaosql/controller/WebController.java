@@ -144,7 +144,9 @@ public class WebController
 
             for (Object principal : principals)
             {
-                if (principal instanceof CustomUserDetails)
+                if (principal instanceof CustomUserDetails
+                        && ((CustomUserDetails) principal).getUsername().equals(AppUtils.getAuthentication().getName())
+                )
                 {
                     for (SessionInformation sessionInformation : sessionRegistry
                             .getAllSessions(principal, false))
@@ -157,7 +159,6 @@ public class WebController
             response.sendRedirect("/logout");
 
             userRepository.delete(user);
-
         }
     }
 
