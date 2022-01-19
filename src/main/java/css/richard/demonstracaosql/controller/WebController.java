@@ -1,5 +1,6 @@
 package css.richard.demonstracaosql.controller;
 
+import css.richard.demonstracaosql.model.details.CustomUserDetails;
 import css.richard.demonstracaosql.model.entities.User;
 import css.richard.demonstracaosql.model.repositories.UserRepository;
 import css.richard.demonstracaosql.utils.AppUtils;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/")
 public class WebController
 {
+
+    @Autowired
+    public SessionRegistry sessionRegistry;
 
     @ModelAttribute("newUser")
     public User user()
@@ -94,8 +100,8 @@ public class WebController
 
         List<User> users = userRepository.findAll()
                 .stream()
-                    .sorted(Comparator.comparing(User::getRegisterDate).reversed())
-                    .collect(Collectors.toList());
+                .sorted(Comparator.comparing(User::getRegisterDate).reversed())
+                .collect(Collectors.toList());
 
         model.addAttribute("users",
                 users.stream()
@@ -105,18 +111,12 @@ public class WebController
 
         Authentication authentication = AppUtils.getAuthentication();
 
-        if (!authentication.isAuthenticated())
-        {
-            System.out.println("Voce nao esta autenticado");
-        }
-
         User user = userRepository.findByEmail(authentication.getName());
 
 
         model.addAttribute("currentIndex", pageNumber);
         model.addAttribute("recordsAmount", userRepository.count());
         model.addAttribute("firstName", user.getFirstName());
-
 
         return "success";
     }
@@ -137,6 +137,22 @@ public class WebController
             Authentication authentication = AppUtils.getAuthentication();
 
             User user = userRepository.findByEmail(authentication.getName());
+
+            List<Object> principals =
+                    sessionRegistry
+                            .getAllPrincipals();
+
+            for (Object principal : principals)
+            {
+                if (principal instanceof CustomUserDetails)
+                {
+                    for (SessionInformation sessionInformation : sessionRegistry
+                            .getAllSessions(principal, false))
+                    {
+                        sessionInformation.expireNow();
+                    }
+                }
+            }
 
             response.sendRedirect("/logout");
 
