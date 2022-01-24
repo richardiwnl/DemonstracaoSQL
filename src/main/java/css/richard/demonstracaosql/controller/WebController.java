@@ -5,6 +5,7 @@ import css.richard.demonstracaosql.model.entities.User;
 import css.richard.demonstracaosql.model.repositories.UserRepository;
 import css.richard.demonstracaosql.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +88,6 @@ public class WebController
             AppUtils.buildUser(user);
 
             userRepository.save(user);
-
         }
 
 
@@ -98,10 +98,7 @@ public class WebController
     public String users(Model model, @PathVariable Integer pageNumber)
     {
 
-        List<User> users = userRepository.findAll()
-                .stream()
-                .sorted(Comparator.comparing(User::getRegisterDate).reversed())
-                .collect(Collectors.toList());
+        List<User> users = userRepository.findAll(Sort.by("registerDate").descending());
 
         model.addAttribute("users",
                 users.stream()
@@ -148,10 +145,10 @@ public class WebController
                         && ((CustomUserDetails) principal).getUsername().equals(AppUtils.getAuthentication().getName())
                 )
                 {
-                    for (SessionInformation sessionInformation : sessionRegistry
+                    for (SessionInformation session : sessionRegistry
                             .getAllSessions(principal, false))
                     {
-                        sessionInformation.expireNow();
+                        session.expireNow();
                     }
                 }
             }
@@ -177,7 +174,7 @@ public class WebController
 
     @PostMapping("/atualizar")
     @Transactional
-    public void update(HttpServletResponse response, @ModelAttribute("newUser") User newUser) throws IOException
+    public void update(HttpServletResponse response, HttpServletRequest request, @ModelAttribute("newUser") User newUser) throws IOException
     {
 
         User formUser = userRepository.findByEmail(newUser.getEmail());
@@ -196,6 +193,26 @@ public class WebController
         {
 
             AppUtils.updateUser(user, newUser);
+
+            List<Object> principals = sessionRegistry.getAllPrincipals();
+
+            for (Object principal : principals)
+            {
+                if (principal instanceof CustomUserDetails
+                    && ((CustomUserDetails) principal).getUsername().equals(
+                            AppUtils.getAuthentication().getName()
+                ))
+                {
+                    for (SessionInformation session : sessionRegistry
+                            .getAllSessions(principal, false))
+                    {
+                        if (!request.getSession().getId().equals(session.getSessionId()))
+                        {
+                            session.expireNow();
+                        }
+                    }
+                }
+            }
 
             Authentication newAuthentication = new
                     PreAuthenticatedAuthenticationToken(user.getEmail(),
