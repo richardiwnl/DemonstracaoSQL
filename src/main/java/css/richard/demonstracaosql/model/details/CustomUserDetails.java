@@ -22,6 +22,11 @@ public class CustomUserDetails implements UserDetails
         return null;
     }
 
+    public User getUser()
+    {
+        return user;
+    }
+
     @Override
     public String getPassword()
     {
