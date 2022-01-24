@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -108,8 +109,9 @@ public class WebController
 
         Authentication authentication = AppUtils.getAuthentication();
 
-        User user = userRepository.findByEmail(authentication.getName());
+        Optional<User> userOptional = userRepository.findById(Long.parseLong(authentication.getName()));
 
+        User user = userOptional.orElseThrow(() -> new NullPointerException("User is null"));
 
         model.addAttribute("currentIndex", pageNumber);
         model.addAttribute("recordsAmount", userRepository.count());
@@ -133,7 +135,9 @@ public class WebController
         {
             Authentication authentication = AppUtils.getAuthentication();
 
-            User user = userRepository.findByEmail(authentication.getName());
+            Optional<User> userOptional = userRepository.findById(Long.parseLong(authentication.getName()));
+
+            User user = userOptional.orElseThrow(() -> new NullPointerException("User is null"));
 
             List<Object> principals =
                     sessionRegistry
@@ -165,7 +169,9 @@ public class WebController
 
         Authentication authentication = AppUtils.getAuthentication();
 
-        User user = userRepository.findByEmail(authentication.getName());
+        Optional<User> userOptional = userRepository.findById(Long.parseLong(authentication.getName()));
+
+        User user = userOptional.orElseThrow(() -> new NullPointerException("User is null"));
 
         model.addAttribute("user", user);
 
@@ -183,7 +189,9 @@ public class WebController
 
         Authentication auth = context.getAuthentication();
 
-        User user = userRepository.findByEmail(auth.getName());
+        Optional<User> userOptional = userRepository.findById(Long.parseLong(auth.getName()));
+
+        User user = userOptional.orElseThrow(() -> new NullPointerException("User is null"));
 
         if (formUser != null && !formUser.getEmail().equals(user.getEmail()))
         {
@@ -194,28 +202,8 @@ public class WebController
 
             AppUtils.updateUser(user, newUser);
 
-            List<Object> principals = sessionRegistry.getAllPrincipals();
-
-            for (Object principal : principals)
-            {
-                if (principal instanceof CustomUserDetails
-                    && ((CustomUserDetails) principal).getUsername().equals(
-                            AppUtils.getAuthentication().getName()
-                ))
-                {
-                    for (SessionInformation session : sessionRegistry
-                            .getAllSessions(principal, false))
-                    {
-                        if (!request.getSession().getId().equals(session.getSessionId()))
-                        {
-                            session.expireNow();
-                        }
-                    }
-                }
-            }
-
             Authentication newAuthentication = new
-                    PreAuthenticatedAuthenticationToken(user.getEmail(),
+                    PreAuthenticatedAuthenticationToken(user.getId(),
                     user.getPassword(), auth.getAuthorities());
 
             context.setAuthentication(newAuthentication);
