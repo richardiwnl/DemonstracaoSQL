@@ -104,7 +104,7 @@ public class WebController
         model.addAttribute("users",
                 users.stream()
                         .skip((long) (pageNumber - 1) * 6)
-                        .limit(pageNumber * 6)
+                        .limit(6)
                         .collect(Collectors.toList()));
 
         Authentication authentication = AppUtils.getAuthentication();
