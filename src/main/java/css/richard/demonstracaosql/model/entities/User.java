@@ -26,9 +26,6 @@ public class User
     @Column(name = "register_date", nullable = false)
     private Date registerDate;
 
-    @Column(name = "formatted_register_date", nullable = false)
-    private String formattedRegisterDate;
-
     public User()
     {
     }
@@ -89,16 +86,6 @@ public class User
     public void setRegisterDate(Date registerDate)
     {
         this.registerDate = registerDate;
-    }
-
-    public String getFormattedRegisterDate()
-    {
-        return formattedRegisterDate;
-    }
-
-    public void setFormattedRegisterDate(String formattedRegisterDate)
-    {
-        this.formattedRegisterDate = formattedRegisterDate;
     }
 
     public Long getId()

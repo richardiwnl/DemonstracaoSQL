@@ -55,7 +55,7 @@ xmlns:th="http://www.thymeleaf.org">
                         <td th:text="${user.firstName}"></td>
                         <td th:text="${user.lastName}"></td>
                         <td th:text="${user.email}"></td>
-                        <td th:text="${user.formattedRegisterDate}"></td>
+                        <td th:text="${#dates.format(user.registerDate, 'dd/MM/yyyy')} + ' às ' + ${#dates.format(user.registerDate, 'HH:mm')}"></td>
                     </tr>
                 </tbody>
             </table>

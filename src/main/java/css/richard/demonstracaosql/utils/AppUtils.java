@@ -21,21 +21,6 @@ public class AppUtils
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    private static void setUserFormattedRegisterDate(User user)
-    {
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-
-        time.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-        date.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-
-        String formattedRegisterDate = String.format("%s às %s",
-                date.format(user.getRegisterDate()),
-                time.format(user.getRegisterDate()));
-
-        user.setFormattedRegisterDate(formattedRegisterDate);
-    }
-
     private static void formatUserName(User user, User newUser)
     {
         if (newUser == null)
@@ -58,7 +43,6 @@ public class AppUtils
 
         user.setRegisterDate(new Date());
 
-        setUserFormattedRegisterDate(user);
     }
 
     public static void updateUser(User user, User newUser)
@@ -67,10 +51,6 @@ public class AppUtils
         formatUserName(user, newUser);
 
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-//        user.setRegisterDate(new Date());
-
-        setUserFormattedRegisterDate(user);
 
         user.setEmail(newUser.getEmail());
     }
